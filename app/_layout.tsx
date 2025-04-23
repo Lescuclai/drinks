@@ -5,6 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import UserProvider from '@/providers/userProvider';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -29,11 +30,15 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
+      <UserProvider>
+        <Stack initialRouteName="(tabs)">
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+          <Stack.Screen name="wine" options={{ title: "Liste des boissons" }} />
+          <Stack.Screen name="beer" options={{ title: "Liste des boissons" }} />
+        </Stack>
+        <StatusBar style="auto" />
+      </UserProvider>
     </ThemeProvider>
   );
 }
