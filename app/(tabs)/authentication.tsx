@@ -1,7 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
 import SignIn from "@/components/auth/SignIn";
-import SignUp from "@/components/auth/SignUp";
 import Header from "@/components/homePage/Header";
 
 
@@ -10,7 +9,6 @@ export default function Authentication() {
     <View style={styles.container}>
       <Header />
       <SignIn />
-      <SignUp />
     </View>
   );
 

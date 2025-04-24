@@ -1,17 +1,19 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { auth } from "@/firebaseConfig";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
 import CustomInput from "@/components/CustomInput";
 import CustomButton from "@/components/CustomButton";
 import { useUserContext } from "@/providers/userProvider";
 import { ThemedText } from "@/components/ThemedText";
 
 
+
 export default function SignIn() {
     const [isVisible, setIsVisible] = useState(false);
+    const [message, setMessage] = useState('');
     const user = useUserContext();
     const { id } = user || { id: null };
     const navigation = useNavigation();
@@ -21,6 +23,7 @@ export default function SignIn() {
         setError,
         clearErrors,
         reset,
+        getValues,
         formState: { errors },
     } = useForm<FormData>();
 
@@ -51,11 +54,36 @@ export default function SignIn() {
             console.log("error", error);
         }
     };
+
+    const handleForgotPassword = async (): Promise<void> => {
+        const email = getValues("email");
+        if (!email) {
+            setError("email", {
+                type: "custom",
+                message: "Veuillez entrer votre adresse e-mail.",
+            });
+            setMessage("");
+            return
+        }
+        try {
+            clearErrors();
+            await sendPasswordResetEmail(auth, email);
+            setMessage("Un e-mail de réinitialisation a été envoyé à votre adresse e-mail.");
+
+        } catch (error) {
+            setError("root", {
+                type: "custom",
+                message: "Une erreur s'est produite lors de la réinitialisation du mot de passe.",
+            });
+            setMessage("");
+        }
+    };
+
     return (
-        <>
+        <View style={styles.container}>
             {id ?
                 <>
-                    <ThemedText>Vous êtes déjà connecter bravo</ThemedText>
+                    <ThemedText style={styles.container}>Vous êtes déjà connecter bravo</ThemedText>
                     <CustomButton
                         mode='contained'
                         title='Se déconnecter'
@@ -63,7 +91,7 @@ export default function SignIn() {
                     </CustomButton>
                 </> :
                 <>
-                    <ThemedText>Se connecter</ThemedText>
+                    <ThemedText style={styles.container}>Se connecter</ThemedText>
                     <CustomInput
                         control={control}
                         name='email'
@@ -85,10 +113,19 @@ export default function SignIn() {
                         rules={{ required: "Le champ est recquis" }}
                         mdp
                     />
+                    <Text style={[styles.link, { textAlign: 'right' }]} onPress={() => handleForgotPassword()}>
+                        Mot de passe oublié ?
+                    </Text>
+
 
                     {Boolean(errors.root) && (
                         <ThemedText style={{ paddingTop: 15 }} >
                             {errors.root?.message}
+                        </ThemedText>
+                    )}
+                    {message != '' && (
+                        <ThemedText style={{ paddingTop: 15 }} >
+                            {message}
                         </ThemedText>
                     )}
 
@@ -97,9 +134,29 @@ export default function SignIn() {
                         title='Se connecter'
                         onPressFunc={handleSubmit(submitSignIn)}>
                     </CustomButton>
+                    <Text style={{ paddingTop: 15 }} >
+                        Pas encore de compte ?
+                        <Text
+                            onPress={() => navigation.navigate("sign-up")}
+                            style={styles.link}
+                        >
+                            Créer un compte
+                        </Text>
+                    </Text>
+
                 </>
             }
-        </>
+        </View>
     );
 
 }
+const styles = StyleSheet.create({
+    container: {
+        margin: 20,
+    },
+    link: {
+        color: '#21005d',
+        fontWeight: 'bold',
+        textDecorationLine: 'underline',
+    }
+});

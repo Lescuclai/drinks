@@ -18,7 +18,7 @@ export default function Header() {
     (state: any) => {
       return state.routes[index].name;
     }
-  ) as 'index' | 'beer' | 'authentication' | 'wine';
+  ) as 'index' | 'beer' | 'authentication' | 'wine' | 'sign-up'
   const [headerContent, setHeaderContent] = useState({ backgroundImage: wood, title: 'What Drinks Next' });
 
   interface IheaderOptions { backgroundImage: any, title: string }
@@ -28,6 +28,7 @@ export default function Header() {
     'beer': { backgroundImage: hop, title: 'Brières' },
     'wine': { backgroundImage: grape, title: 'Vins' },
     'authentication': { backgroundImage: foam, title: 'Qui suis-je ?' },
+    'sign-up': { backgroundImage: foam, title: 'Qui suis-je ?' },
     '+not-found': { backgroundImage: wood, title: 'Mauvais chemin' }
   };
 
