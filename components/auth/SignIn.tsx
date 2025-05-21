@@ -2,11 +2,9 @@ import { StyleSheet, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { auth } from "@/firebaseConfig";
-import { signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
 import CustomInput from "@/components/CustomInput";
 import CustomButton from "@/components/CustomButton";
-import { useUserContext } from "@/providers/userProvider";
+// import { useUserContext } from "@/providers/userProvider";
 import { ThemedText } from "@/components/ThemedText";
 
 
@@ -14,8 +12,9 @@ import { ThemedText } from "@/components/ThemedText";
 export default function SignIn() {
     const [isVisible, setIsVisible] = useState(false);
     const [message, setMessage] = useState('');
-    const user = useUserContext();
-    const { id } = user || { id: null };
+
+    // const { id } = user || { id: null };
+    const { id } = { id: null };
     const navigation = useNavigation();
     const {
         control,
@@ -34,10 +33,11 @@ export default function SignIn() {
 
     const submitSignIn = async (data: FormData) => {
         try {
-            clearErrors();
-            await signInWithEmailAndPassword(auth, data.email, data.password);
-            reset();
-            navigation.goBack();
+            // clearErrors();
+            // await signInWithEmailAndPassword(auth, data.email, data.password);
+            // reset();
+            // navigation.goBack();
+            console.log("signin", data)
         } catch (error) {
             setError("root", {
                 type: "custom",
@@ -48,7 +48,8 @@ export default function SignIn() {
 
     const submitSignOut = async (): Promise<void> => {
         try {
-            await signOut(auth);
+            // await signOut(auth);
+            console.log("signout")
             navigation.goBack();
         } catch (error) {
             console.log("error", error);
@@ -67,7 +68,7 @@ export default function SignIn() {
         }
         try {
             clearErrors();
-            await sendPasswordResetEmail(auth, email);
+            // await sendPasswordResetEmail(auth, email);
             setMessage("Un e-mail de réinitialisation a été envoyé à votre adresse e-mail.");
 
         } catch (error) {

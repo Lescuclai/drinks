@@ -18,6 +18,7 @@ export default ({ config }) => ({
             foregroundImage: "./assets/images/adaptive-icon.png",
             backgroundColor: "#ffffff",
         },
+        jsEngine: "hermes"
     },
     web: {
         bundler: "metro",
