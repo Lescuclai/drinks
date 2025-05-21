@@ -1,8 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { auth } from "@/firebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import CustomInput from "@/components/CustomInput";
 import CustomButton from "@/components/CustomButton";
 import { ThemedText } from "@/components/ThemedText";
@@ -33,10 +31,11 @@ export default function SignUpScreen() {
 
     const submitSignUp = async (data: FormCreationData) => {
         try {
-            clearErrors();
-            await createUserWithEmailAndPassword(auth, data.createEmail, data.createPassword);
-            reset();
-            navigation.navigate("index", { screen: "home" });
+            // clearErrors();
+            // await createUserWithEmailAndPassword(auth, data.createEmail, data.createPassword);
+            // reset();
+            // navigation.navigate("index", { screen: "home" });
+            console.log("hello", data)
         } catch (error) {
             setError("root", {
                 type: "custom",
