@@ -25,9 +25,9 @@ export default function Header() {
 
   const headerOptions: { [key: string]: IheaderOptions } = {
     'index': { backgroundImage: wood, title: 'What Drinks Next' },
+    'authentication': { backgroundImage: foam, title: 'Qui suis-je ?' },
     'beer': { backgroundImage: hop, title: 'Brières' },
     'wine': { backgroundImage: grape, title: 'Vins' },
-    'auth': { backgroundImage: foam, title: 'Qui suis-je ?' },
     '+not-found': { backgroundImage: wood, title: 'Mauvais chemin' }
   };
 

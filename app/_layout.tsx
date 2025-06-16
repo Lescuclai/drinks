@@ -36,7 +36,6 @@ export default function RootLayout() {
           <Stack.Screen name="+not-found" />
           <Stack.Screen name="wine" options={{ title: "Liste des boissons" }} />
           <Stack.Screen name="beer" options={{ title: "Liste des boissons" }} />
-          <Stack.Screen name="auth" options={{ title: "Authentification" }} />
         </Stack>
         <StatusBar style="auto" />
       </UserProvider>

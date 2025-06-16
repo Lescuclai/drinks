@@ -25,7 +25,6 @@ export default function Auth() {
         control,
         handleSubmit,
         reset,
-        formState: { errors },
     } = useForm<FormData>();
     const [isVisible, setIsVisible] = useState(false);
     const [loading, setLoading] = useState(false)
@@ -33,7 +32,6 @@ export default function Auth() {
     const [session, setSession] = useState<Session | null>(null)
 
     useEffect(() => {
-
         supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session)
         })
@@ -45,7 +43,6 @@ export default function Auth() {
         createEmail?: string;
         createPassword?: string;
     }
-
 
     async function signInWithEmail(data: FormData) {
         setLoading(true)
@@ -72,9 +69,8 @@ export default function Auth() {
         if (error) Alert.alert(error.message)
         if (!session) Alert.alert('Please check your inbox for email verification!')
         setLoading(false)
-
-
     }
+
     async function signOut() {
         const { error } = await supabase.auth.signOut()
         if (error) {
